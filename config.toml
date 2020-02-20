@@ -1,6 +1,6 @@
 baseurl = "https://365clock.com"
 title = "Calendar Clock"
-theme = "hugo-coder"
+# theme = "hugo-coder"
 languagecode = "en"
 defaultcontentlanguage = "en"
 
