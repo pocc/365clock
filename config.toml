@@ -4,6 +4,7 @@ title = "Calendar Clock"
 languagecode = "en"
 defaultcontentlanguage = "en"
 
+customCSS = ["coder.css"]
 paginate = 20
 canonifyurls = true
 
