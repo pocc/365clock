@@ -1,2 +1,3 @@
-# 365clock
-A website to showcase a visual calendar clock
+# 365clock.com
+
+Visualize the calendar as a circle! Designed by Olivia Jacobs.
