@@ -94,9 +94,9 @@ function drawTime(ctx, radius){
 	// hours hand
     drawHand(ctx, tau*hours/12, radius*0.6, radius*0.03, "#333");
 	// weeks hand
-    drawHand(ctx, tau*dow/7, radius*0.6, radius*0.03, "#915b25");
+    drawHand(ctx, tau*dow/7, radius*0.3, radius*0.03, "#915b25");
 	// months hand
-    drawHand(ctx, doy/365*tau, radius*0.5, radius*0.05, "#00f");
+    drawHand(ctx, doy/365*tau, radius*0.8, radius*0.05, "#00f");
 }
 
 function drawHand(ctx, pos, length, width, color) {
