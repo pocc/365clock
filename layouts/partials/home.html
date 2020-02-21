@@ -1,6 +1,7 @@
 <section id="canvas_section" class="container centered">
 <!-- Inspired by https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_hands which came with many magical numbers -->
 <canvas id="canvas" style="background-color:#f9f9f9">
+  Your browser does not support canvas
 </canvas>
 
 <script>
@@ -19,7 +20,7 @@ function redrawCanvas() {
 	radius = radius * 0.90
 	ival = setInterval(() => {
 		drawClock(ctx, radius)
-	}, 10);
+	}, 20); // 60hz screens will refresh every 17ms
 	window.addEventListener('resize', () => {
 		clearInterval(ival);
 		redrawCanvas();
@@ -31,6 +32,7 @@ function drawClock(ctx, radius) {
   drawNumbers(ctx, radius);
   drawTime(ctx, radius);
   drawCenterDial(ctx, radius);
+  markWeekTicks(ctx, radius)
 }
 
 function drawFace(ctx, radius) {
@@ -81,7 +83,8 @@ function drawTime(ctx, radius){
 	const now = new Date();
     const seconds = now.getSeconds() + now.getMilliseconds()/1000;
     const minutes = now.getMinutes() + seconds/60;
-    const hours = (now.getHours() + minutes/60) % 12;
+    const hours = (now.getHours() + minutes/60);
+	const clockhours = hours % 12;
     const doy = getDayOfYear();
 	const dow = now.getDay() + hours/24 
     const tau = 2*Math.PI;
@@ -92,7 +95,7 @@ function drawTime(ctx, radius){
 	// minutes hand
     drawHand(ctx, tau*minutes/60, radius*0.6, radius*0.02, "#222");
 	// hours hand
-    drawHand(ctx, tau*hours/12, radius*0.6, radius*0.03, "#333");
+    drawHand(ctx, tau*clockhours/12, radius*0.6, radius*0.03, "#333");
 	// weeks hand
     drawHand(ctx, tau*dow/7, radius*0.3, radius*0.03, "#915b25");
 	// months hand
@@ -104,11 +107,36 @@ function drawHand(ctx, pos, length, width, color) {
     ctx.beginPath();
     ctx.lineWidth = width;
     ctx.lineCap = "round";
-    ctx.moveTo(0,0);
+    ctx.moveTo(0, 0);
     ctx.rotate(pos);
     ctx.lineTo(0, -length);
     ctx.stroke();
     ctx.rotate(-pos);
+}
+
+function markWeekTicks(ctx, radius) {
+    let secHandLength = 60;
+	const daysOfWeek = ["☉", "☾", "♂", "☿", "♃", "♀", "♄"]
+
+    for (let i = 0; i < 7; i++) {
+		angle = (i-1.75)*(Math.PI * 2) / 7;  // THE ANGLE TO MARK.
+		ctx.lineWidth = radius*.015;         // HAND WIDTH.
+		ctx.beginPath();
+
+		let x1 = 2*Math.cos(angle) * (secHandLength);
+		let y1 = 2*Math.sin(angle) * (secHandLength);
+		let x2 = 2*Math.cos(angle) * (secHandLength - (secHandLength / 30));
+		let y2 = 2*Math.sin(angle) * (secHandLength - (secHandLength / 30));
+
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+        ctx.fillStyle = "#915b25"; 
+		ctx.font = '30px sans-serif';
+        ctx.fillText(daysOfWeek[i], x2*1.2, y2*1.2);
+
+		ctx.strokeStyle = "#915b25";
+		ctx.stroke();
+	}
 }
 
 function drawCenterDial(ctx, radius) {
