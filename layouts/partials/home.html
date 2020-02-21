@@ -116,7 +116,7 @@ function drawHand(ctx, pos, length, width, color) {
 
 function markWeekTicks(ctx, radius) {
     let secHandLength = 60;
-	const daysOfWeek = ["☉", "☾", "♂", "☿", "♃", "♀", "♄"]
+	const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] //["☉", "☾", "♂", "☿", "♃", "♀", "♄"]
 
     for (let i = 0; i < 7; i++) {
 		angle = (i-1.75)*(Math.PI * 2) / 7;  // THE ANGLE TO MARK.
@@ -134,8 +134,8 @@ function markWeekTicks(ctx, radius) {
 		ctx.font = '30px sans-serif';
         ctx.fillText(daysOfWeek[i], x2*1.2, y2*1.2);
 
-		ctx.strokeStyle = "#915b25";
-		ctx.stroke();
+		//ctx.strokeStyle = "#915b25";
+		//ctx.stroke();
 	}
 }
 
