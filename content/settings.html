@@ -1,8 +1,8 @@
 +++
 title="Clock Settings"
 +++
-<section id="canvas_section" class="container centered">
-<div id="table_settings" style="display:inline-block;"> 
+<section id="canvas_section" class="container centered" style="display:block">
+<div id="table_settings" style="display:inline-block;float:top;"> 
 <p style="text-align:center;">To reset this table, refresh the page</p>
 <table>
 	<thead>
@@ -48,7 +48,7 @@ title="Clock Settings"
 <p style="display:table-caption;" id="save_text"></p>
 </div>
 <!-- Inspired by https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_hands which came with many magical numbers -->
-<canvas id="canvas" style="background-color:#f9f9f9">
+<canvas id="canvas" style="background-color:#f9f9f9;float:bottom;">
   Your browser does not support canvas
 </canvas>
 
@@ -222,7 +222,7 @@ function markWeekNames(ctx, radius) {
 		ctx.moveTo(x1, y1);
 		ctx.lineTo(x2, y2);
         ctx.fillStyle = "#915b25"; 
-		ctx.font = '30px sans-serif';
+		ctx.font = Math.round(radius/10).toString() + 'px sans-serif';
         ctx.fillText(daysOfWeek[i], x2*1.2, y2*1.2);
         
 		// To create a tickmark next to the name
