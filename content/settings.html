@@ -93,6 +93,7 @@ function setValues(radius, setLengths, setWidths, setColors) {
 }
 window.addEventListener('DOMContentLoaded', redrawCanvas);
 
+let first_run = true;
 function redrawCanvas() {
 	let canvas = document.getElementById("canvas");
 	let canvasWidth = document.getElementsByClassName("content")[0].offsetWidth
@@ -104,11 +105,14 @@ function redrawCanvas() {
 	let radius = canvas.height / 2;
 	ctx.translate(radius, radius);
 	radius = radius * 0.90
-	lengths = ORIG_LENGTHS.map((n) => { return radius * n });
-	widths = ORIG_WIDTHS.map((n) => { return radius * n });
-	colors = ["#880000", "#222222", "#333333", "#915b25", "#0000ff"]
-	// Only set the values for the table if the table exists
-	setValues(radius, lengths, widths, colors)
+	if (first_run) {
+		lengths = ORIG_LENGTHS.map((n) => { return radius * n });
+		widths = ORIG_WIDTHS.map((n) => { return radius * n });
+		colors = ["#880000", "#222222", "#333333", "#915b25", "#0000ff"]
+		// Only set the values for the table if the table exists
+		setValues(radius, lengths, widths, colors)
+		first_run = false;
+	}
 	ival = setInterval(() => {
 		drawClock(ctx, radius)
 	}, 20); // 60hz screens will refresh every 17ms
