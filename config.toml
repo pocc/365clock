@@ -33,3 +33,7 @@ disqusShortname = "yourdiscussshortname"
     name = "About"
     weight = 2
     url = "/about/"
+[[menu.main]]
+    name = "Settings"
+    weight = 2
+    url = "/settings/"

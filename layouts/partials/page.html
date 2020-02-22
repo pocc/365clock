@@ -1,8 +1,10 @@
 <section class="container page">
   <article>
+	{{ if ne .Title "Clock Settings" }}
     <header>
       <h1>{{ .Title }}</h1>
     </header>
+	{{ end }}
 
     {{ .Content }}
   </article>

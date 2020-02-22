@@ -1,3 +1,52 @@
++++
+title="Clock Settings"
++++
+<section id="canvas_section" class="container centered">
+<div id="table_settings" style="display:inline-block;"> 
+<p style="text-align:center;">To reset this table, refresh the page</p>
+<table>
+	<thead>
+		<th>Hand Name</th>
+		<th>Length</th>
+		<th>Width</th>
+		<th>Color</th>
+	</thead>
+	<tbody>
+	<tr>
+		<td>Seconds</td>
+		<td class="seconds_hand td_length"><input type="text" size="5"></td>
+		<td class="seconds_hand td_width"><input type="text" size="5"></td>
+		<td class="seconds_Hand td_color"><input type="color"></td>
+	</tr>
+	<tr>
+		<td>Minutes</td>
+		<td class="minutes_hand td_length"><input  type="text" size="5"></td>
+		<td class="minutes_hand td_width"><input  type="text" size="5"></td>
+		<td class="minutes_Hand td_color"><input  type="color"></td>
+	</tr>
+	<tr>
+		<td>Hours</td>
+		<td class="hours_hand td_length"><input  type="text" size="5"></td>
+		<td class="hours_hand td_width"><input  type="text" size="5"></td>
+		<td class="hours_Hand td_color"><input  type="color"></td>
+	</tr>
+	<tr>
+		<td>Days</td>
+		<td class="days_hand td_length"><input  type="text" size="5"></td>
+		<td class="days_hand td_width"><input  type="text" size="5"></td>
+		<td class="days_Hand td_color"><input  type="color"></td>
+	</tr>
+	<tr>
+		<td>Months</td>
+		<td class="months_hand td_length"><input  type="text" size="5"></td>
+		<td class="months_hand td_width"><input  type="text" size="5"></td>
+		<td class="months_Hand td_color"><input  type="color"></td>
+	</tr>
+	</tbody>
+</table>
+<input type="button" value="Generate settings csv" onclick="let a = '';let i=0;for (const el of document.querySelectorAll('td > input')) {if (i%3!==0) {a+=','} a += el.value.toString(); if (i%3 === 2) {a+='\n'}; i+=1;};b = document.getElementById('save_text');b.innerHTML = a;">
+<p style="display:table-caption;" id="save_text"></p>
+</div>
 <!-- Inspired by https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_hands which came with many magical numbers -->
 <canvas id="canvas" style="background-color:#f9f9f9">
   Your browser does not support canvas
@@ -10,12 +59,44 @@ const ORIG_LENGTHS = [0.65, 0.6, 0.6, 0.3, 0.8]
 const ORIG_WIDTHS = [0.01, 0.02, 0.03, 0.03, 0.05]
 let lengths, widths, colors;
 
+function setValues(radius, setLengths, setWidths, setColors) {
+	let i = 0;
+	for (const el of document.querySelectorAll(".td_length > input")) {
+      el.value = (setLengths[i] / radius).toFixed(2);
+	  el.addEventListener("change", () => {
+		  const rowIndex = el.parentElement.parentElement.rowIndex - 1 // -1 for fencepost
+		  lengths[rowIndex] = el.value * radius
+		  setValues(radius, lengths, setWidths, setColors)
+	  }, {once: true})
+	  i += 1;
+	}
+	i = 0;
+	for (const el of document.querySelectorAll(".td_width > input")) {
+	  el.value = (setWidths[i] / radius).toFixed(2);
+	  el.addEventListener("change", () => {
+		  const rowIndex = el.parentElement.parentElement.rowIndex - 1 // -1 for fencepost
+		  setWidths[rowIndex] = el.value * radius
+		  setValues(radius, setLengths, setWidths, setColors)
+	  }, {once: true})
+	  i += 1;
+	}
+	i = 0;
+	for (const el of document.querySelectorAll(".td_color > input")) {
+	  el.value = setColors[i]
+	  el.addEventListener("change", () => {
+		  const rowIndex = el.parentElement.parentElement.rowIndex - 1 // -1 for fencepost
+		  setColors[rowIndex] = el.value
+		  setValues(radius, setLengths, setWidths, setColors)
+	  }, {once: true})
+	  i += 1;
+	}
+}
 window.addEventListener('DOMContentLoaded', redrawCanvas);
 
 function redrawCanvas() {
 	let canvas = document.getElementById("canvas");
-	let canvasWidth = document.getElementById("canvas_section").offsetWidth
-	let canvasHeight = document.getElementById("canvas_section").offsetHeight
+	let canvasWidth = document.getElementsByClassName("content")[0].offsetWidth
+	let canvasHeight = document.getElementsByClassName("content")[0].offsetHeight
 	let shortestSide = canvasHeight > canvasWidth ? canvasWidth : canvasHeight;
 	canvas.width = shortestSide;
 	canvas.height = shortestSide;
@@ -27,9 +108,7 @@ function redrawCanvas() {
 	widths = ORIG_WIDTHS.map((n) => { return radius * n });
 	colors = ["#880000", "#222222", "#333333", "#915b25", "#0000ff"]
 	// Only set the values for the table if the table exists
-	if (document.getElementById('table_settings') !== null) {
-		setValues(radius, lengths, widths, colors)
-	}
+	setValues(radius, lengths, widths, colors)
 	ival = setInterval(() => {
 		drawClock(ctx, radius)
 	}, 20); // 60hz screens will refresh every 17ms
@@ -161,3 +240,4 @@ function drawCenterDial(ctx, radius) {
 }
 
 </script>
+</section>
