@@ -126,8 +126,7 @@ function drawClock(ctx, radius) {
   drawFace(ctx, radius);
   drawNumbers(ctx, radius);
   drawTime(ctx, radius);
-  drawCenterDial(ctx, radius);
-  markWeekNames(ctx, radius)
+  markWeekNames(ctx, radius);
 }
 
 function drawFace(ctx, radius) {
@@ -189,12 +188,12 @@ function drawTime(ctx, radius){
 	drawHand(ctx, tau*seconds/60, lengths[SEC], widths[SEC], colors[SEC]);
 	// minutes hand
     drawHand(ctx, tau*minutes/60, lengths[MIN], widths[MIN], colors[MIN]);
-	// hours hand
-    drawHand(ctx, tau*clockhours/12, lengths[HOUR], widths[HOUR], colors[HOUR]);
 	// weeks hand
     drawHand(ctx, tau*dow/7, lengths[DAY], widths[DAY], colors[DAY]);
 	// months hand
     drawHand(ctx, doy/365*tau, lengths[MONTH], widths[MONTH], colors[MONTH]); 
+	// hours hand
+    drawHand(ctx, tau*clockhours/12, lengths[HOUR], widths[HOUR], colors[HOUR]);
 }
 
 function drawHand(ctx, pos, length, width, color) {
@@ -233,14 +232,6 @@ function markWeekNames(ctx, radius) {
 		//ctx.strokeStyle = "#915b25";
 		//ctx.stroke();
 	}
-}
-
-function drawCenterDial(ctx, radius) {
-  ctx.strokeStyle = "#333";
-  ctx.beginPath();
-  ctx.arc(0, 0, radius*0.08, 0, 2*Math.PI);
-  ctx.stroke();
-  ctx.fill();
 }
 
 </script>
