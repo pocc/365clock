@@ -25,7 +25,7 @@ function redrawCanvas() {
 	radius = radius * 0.90
 	lengths = ORIG_LENGTHS.map((n) => { return radius * n });
 	widths = ORIG_WIDTHS.map((n) => { return radius * n });
-	colors = ["#880000", "#222222", "#333333", "#915b25", "#0000ff"]
+	colors = ["#ff0000", "#222222", "#333333", "#66d441", "#00ffff"]
 	// Only set the values for the table if the table exists
 	if (document.getElementById('table_settings') !== null) {
 		setValues(radius, lengths, widths, colors)
